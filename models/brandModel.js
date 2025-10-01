@@ -1,11 +1,12 @@
 const {DataTypes} = require('sequelize')
-const sequelize = require('../config/db')
+const sequelize = require('../config/db.js')
 
 
 const Brand = sequelize.define('Brand',{
-    cName : {
+    bName : {
         type:DataTypes.STRING,
-        allowNull:false    }
+        allowNull:false
+    }
 })
 
 
