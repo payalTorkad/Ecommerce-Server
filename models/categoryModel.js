@@ -6,6 +6,10 @@ const Category = sequelize.define('Category',{
     cName : {
         type:DataTypes.STRING,
         allowNull:false
+    },
+    bImage:{
+        type:DataTypes.STRING,
+        allowNull:false
     }
 })
 

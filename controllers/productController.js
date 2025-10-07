@@ -1,4 +1,6 @@
+const { Op } =require ("sequelize");
 const Product = require("../models/productModel")
+
 
 const getAllProducts =async (req, res) => {
   try {
@@ -12,7 +14,7 @@ const getAllProducts =async (req, res) => {
 const getProductById = async (req, res) => {
   console.log(req.params.ID)
   try {
-    const product = await Product.findByPk(ID);
+    const product = await Product.findByPK(ID);
     if(!product){
       res.status(404).send({ message: "Product not found" });
     }else{
@@ -75,10 +77,36 @@ const deleteProduct = async(req, res) => {
   }
 };
 
+async function getProductByFilter(req, res){ 
+    console.log(req.query); 
+    const { minPrice, maxPrice } = req.query
+
+    const whereClause ={}
+
+    if(minPrice && maxPrice){
+        whereClause.price = {[Op.between]: [Number(minPrice), Number(maxPrice)]}
+    }
+     try { 
+        const products = await Product.findAll({
+      where: whereClause,
+      include: ["Category", "Brand"]
+    });
+    console.log(products)
+    if(!products){
+         res.status(200).json({ success: true, msg:"Product not found" });
+    }
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send({ msg: "Server error" });
+  }
+  }
+
 module.exports = {
   getAllProducts,
   getProductById,
   createProduct,
   updateProduct,
   deleteProduct,
+  getProductByFilter
 };

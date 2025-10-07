@@ -24,10 +24,10 @@ const Product = sequelize.define('Product',{
         type:DataTypes.INTEGER,
         allowNull:false
     },
-    brandID:{
-        type:DataTypes.INTEGER,
-        allowNull:false
-    }
+    // brandID:{
+    //     type:DataTypes.INTEGER,
+    //     allowNull:false
+    // }
 })
 
 Product.belongsTo(Category,{foreignKey:"catID"})
